@@ -75,3 +75,31 @@ def get_datasets(
     y_test = concat_fn([y_test_pos, y_test_neg]).astype(int)
 
     return X_train, X_test, y_train, y_test
+
+
+def train_classifier(
+    clf,
+    X: np.ndarray,
+    y: np.ndarray,
+    balanced: bool = True,
+    test_size: float = TEST_SIZE,
+    random_seed: int = RANDOM_SEED,
+):
+    X_train, X_test, y_train, y_test = get_datasets(
+        X, y, test_size=test_size, balanced=balanced, random_seed=random_seed
+    )
+
+    # Fitting the classifier
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+    y_score = clf.predict_proba(X_test)[:, 1]
+
+    return {
+        "classifier": type(clf).__name__,
+        "y_test": list(y_test),
+        "y_pred": list(y_pred),
+        "n_pos": y_train.sum(),
+        "n_neg": (1 - y_train).sum(),
+        "seed": random_seed,
+        **get_metrics(y_test, y_pred, y_score),
+    }
