@@ -25,6 +25,9 @@ dependencies = [
     "xgboost >= 1.7.5",
 ]
 
+[project.scripts]
+zamd_compare = "zeo_amd.scripts.compare:main"
+
 [project.urls]
 Homepage = "https://github.com/dskoda/Zeolite-AMD"
 

@@ -11,11 +11,11 @@ def compare_folders(folder_1: os.PathLike, folder_2: os.PathLike, k=100):
 
 	names_1 = [
 	    name.strip(".cif")
-	    for name in sorted(os.listdir(path))
+	    for name in sorted(os.listdir(path_1))
 	]
 	names_2 = [
 	    name.strip(".cif")
-	    for name in sorted(os.listdir(path))
+	    for name in sorted(os.listdir(path_2))
 	]
 	
 	dm.index = names_1

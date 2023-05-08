@@ -25,12 +25,16 @@ def get_args():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = get_args()
     k = args.k
 
     if os.path.exists(args.output):
         sys.exit()
 
-    results = compare_folders(path1, path2, k)
+    results = compare_folders(args.path_1, args.path_2, k)
     results.to_csv(args.output)
+
+
+if __name__ == "__main__":
+    main()
