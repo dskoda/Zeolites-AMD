@@ -22,7 +22,7 @@ dependencies = [
     "tqdm",
     "shap",
     "umap-learn",
-    "xgboost >= 1.7.5",
+    "xgboost >= 1.7.0",
 ]
 
 [project.scripts]
