@@ -130,4 +130,4 @@ dmypy.json
 
 # Data folder for now
 ./data
-./tests
+tests/
