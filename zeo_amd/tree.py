@@ -4,7 +4,7 @@ import networkx as nx
 from scipy.spatial.distance import squareform, pdist
 
 
-def get_mst(dm: pd.DataFrame):
+def get_graph(dm: pd.DataFrame):
     graph = nx.Graph()
 
     graph.add_weighted_edges_from(
@@ -12,5 +12,9 @@ def get_mst(dm: pd.DataFrame):
     )
     _attrs = {i: z for i, z in enumerate(dm.index)}
     nx.set_node_attributes(graph, _attrs, "zeo")
+    return graph
 
+
+def get_mst(dm: pd.DataFrame):
+    graph = get_graph(dm)
     return nx.minimum_spanning_tree(graph)

@@ -44,19 +44,20 @@ def get_datasets(
     balanced: bool = True,
     random_seed=RANDOM_SEED,
 ):
-    n_pos = y.sum()
-    n_neg = (~y).sum()
+    i = y.astype(bool)
+    n_pos = i.sum()
+    n_neg = (~i).sum()
 
     # Creating the datasets
-    X_pos, y_pos = X.loc[y], y.loc[y]
-    X_neg, y_neg = X.loc[~y], y.loc[~y]
+    X_pos, y_pos = X[i], y[i]
+    X_neg, y_neg = X[~i], y[~i]
 
     # Creating balanced datasets: subsample the negative data
     # to make the positive and negative data compatible
     if balanced:
         i = np.arange(n_neg)
         i_neg = np.random.choice(i, n_pos)
-        X_neg, y_neg = X_neg.iloc[i_neg], y_neg.iloc[i_neg]
+        X_neg, y_neg = X_neg[i_neg], y_neg[i_neg]
 
     # Use the same number of positive-negative points in the train/test sets
     X_train_pos, X_test_pos, y_train_pos, y_test_pos = train_test_split(
@@ -75,6 +76,22 @@ def get_datasets(
     y_test = concat_fn([y_test_pos, y_test_neg]).astype(int)
 
     return X_train, X_test, y_train, y_test
+
+
+def get_datasets_with_validation(
+    X: np.ndarray,
+    y: np.ndarray,
+    val_size: float = TEST_SIZE,
+    test_size: float = TEST_SIZE,
+    balanced: bool = True,
+    random_seed=RANDOM_SEED,
+):
+    temp_size = val_size + test_size
+    X_train, X_temp, y_train, y_temp = get_datasets(X, y, test_size=temp_size, balanced=balanced, random_seed=random_seed)
+    X_val, X_test, y_val, y_test = get_datasets(X_temp, y_temp, test_size=(test_size / temp_size), balanced=balanced, random_seed=random_seed)
+
+    return X_train, X_val, X_test, y_train, y_val, y_test
+
 
 
 def train_classifier(
