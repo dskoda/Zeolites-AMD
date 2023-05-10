@@ -70,7 +70,6 @@ class HyperparameterOptimizer:
                     "n_neg": (1 - y_train).sum(),
                     "seed": self.seed,
                     "params": params,
-                    **params,
                     **val_metrics,
                     **test_metrics,
                 }

@@ -14,6 +14,7 @@ def get_data(distance_matrix, synthesis_table):
 
     return dm, synth
 
+
 def get_args():
     parser = argparse.ArgumentParser(description="Compare two folders using the AMD.")
     parser.add_argument("distance_matrix", type=str, help="path to distance matrix")
@@ -55,7 +56,8 @@ def get_args():
         help="number of runs",
     )
     parser.add_argument(
-        "-s", "--seed",
+        "-s",
+        "--seed",
         type=int,
         default=1886,
         help="random seed",
@@ -87,17 +89,19 @@ def main():
     dm, synth = get_data(args.distance_matrix, args.synthesis_table)
 
     results = []
-    for _label in tqdm.tqdm(synth.columns):
+    for _label in synth.columns:
         # Get the information for the dataset
         X = dm.values
         y = (synth[_label] > args.min_synthesis).values
-        
+
         n_pos = y.sum()
 
         if n_pos < args.min_positive:
             continue
-        
+
         for cls, ranges in classifiers_hyperparameters:
+            print(_label, cls.__name__)
+
             opt = HyperparameterOptimizer(
                 cls,
                 ranges,
@@ -107,8 +111,10 @@ def main():
                 random_seed=args.seed,
             )
 
-            results += opt.optimize_hyperparameters(X, y, n_runs=args.n_runs, n_workers=args.n_workers)
-            
+            results += opt.optimize_hyperparameters(
+                X, y, n_runs=args.n_runs, n_workers=args.n_workers
+            )
+
         break
 
     df = pd.DataFrame(results)
