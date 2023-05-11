@@ -8,7 +8,7 @@ import warnings
 
 from zeo_amd.hparams import HyperparameterOptimizer
 
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
 
 
 def get_ranges():
@@ -18,32 +18,44 @@ def get_ranges():
     import xgboost as xgb
 
     classifiers_hyperparameters = [
-        (LogisticRegression, {
-            'penalty': ['l2', 'none'],
-            'C': [0.001, 0.01, 0.1, 1, 10, 100],
-            'solver': ['lbfgs', 'liblinear', 'sag', 'saga']
-        }),
-        (LogisticRegression, {
-            'penalty': ['l1'],
-            'C': [0.001, 0.01, 0.1, 1, 10, 100],
-            'solver': ['saga'],
-            "l1_ratio": [0.25, 0.5, 0.75, 1]
-        }),
-        (RandomForestClassifier, {
-            'n_estimators': [50, 100, 200],
-            'max_depth': [None, 10, 20],
-            'min_samples_split': [2, 5, 10],
-            'min_samples_leaf': [1, 2, 4],
-            'bootstrap': [True, False]
-        }),
-        (xgb.XGBClassifier, {
-            'n_estimators': [50, 100, 200],
-            'learning_rate': [0.01, 0.1, 0.2],
-            'max_depth': [3, 4, 5, 6],
-            'min_child_weight': [1, 2, 3],
-            'subsample': [0.5, 0.75, 1],
-            'colsample_bytree': [0.5, 0.75, 1],
-        })
+        (
+            LogisticRegression,
+            {
+                "penalty": ["l2", "none"],
+                "C": [0.001, 0.01, 0.1, 1, 10, 100],
+                "solver": ["lbfgs", "liblinear", "sag", "saga"],
+            },
+        ),
+        (
+            LogisticRegression,
+            {
+                "penalty": ["l1"],
+                "C": [0.001, 0.01, 0.1, 1, 10, 100],
+                "solver": ["saga"],
+                "l1_ratio": [0.25, 0.5, 0.75, 1],
+            },
+        ),
+        (
+            RandomForestClassifier,
+            {
+                "n_estimators": [50, 100, 200],
+                "max_depth": [None, 10, 20],
+                "min_samples_split": [2, 5, 10],
+                "min_samples_leaf": [1, 2, 4],
+                "bootstrap": [True, False],
+            },
+        ),
+        (
+            xgb.XGBClassifier,
+            {
+                "n_estimators": [50, 100, 200],
+                "learning_rate": [0.01, 0.1, 0.2],
+                "max_depth": [3, 4, 5, 6],
+                "min_child_weight": [1, 2, 3],
+                "subsample": [0.5, 0.75, 1],
+                "colsample_bytree": [0.5, 0.75, 1],
+            },
+        ),
     ]
     return classifiers_hyperparameters
 

@@ -17,7 +17,7 @@ class HyperparameterOptimizer:
         test_size: float = 0.2,
         balanced: bool = True,
         random_seed: int = 42,
-        label: str = None
+        label: str = None,
     ):
         self.Classifier = classifier_class
         self.hyperparameter_ranges = hyperparameter_ranges
@@ -35,7 +35,9 @@ class HyperparameterOptimizer:
         param_grid = ParameterGrid(self.hyperparameter_ranges)
         p = mp.Pool(n_workers)
 
-        train_fn = lambda params: self.train(params, X_train, X_val, X_test, y_train, y_val, y_test)
+        train_fn = lambda params: self.train(
+            params, X_train, X_val, X_test, y_train, y_val, y_test
+        )
 
         results = []
         for res in p.imap_unordered(train_fn, param_grid, chunksize=1):

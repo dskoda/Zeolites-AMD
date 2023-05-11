@@ -87,11 +87,18 @@ def get_datasets_with_validation(
     random_seed=RANDOM_SEED,
 ):
     temp_size = val_size + test_size
-    X_train, X_temp, y_train, y_temp = get_datasets(X, y, test_size=temp_size, balanced=balanced, random_seed=random_seed)
-    X_val, X_test, y_val, y_test = get_datasets(X_temp, y_temp, test_size=(test_size / temp_size), balanced=balanced, random_seed=random_seed)
+    X_train, X_temp, y_train, y_temp = get_datasets(
+        X, y, test_size=temp_size, balanced=balanced, random_seed=random_seed
+    )
+    X_val, X_test, y_val, y_test = get_datasets(
+        X_temp,
+        y_temp,
+        test_size=(test_size / temp_size),
+        balanced=balanced,
+        random_seed=random_seed,
+    )
 
     return X_train, X_val, X_test, y_train, y_val, y_test
-
 
 
 def train_classifier(
