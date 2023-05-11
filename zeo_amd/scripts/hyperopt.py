@@ -1,10 +1,51 @@
 import os
 import sys
+import random
 import argparse
 import numpy as np
 import pandas as pd
+import warnings
 
 from zeo_amd.hparams import HyperparameterOptimizer
+
+warnings.filterwarnings('ignore')
+
+
+def get_ranges():
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.svm import SVC
+    import xgboost as xgb
+
+    classifiers_hyperparameters = [
+        (LogisticRegression, {
+            'penalty': ['l2', 'none'],
+            'C': [0.001, 0.01, 0.1, 1, 10, 100],
+            'solver': ['lbfgs', 'liblinear', 'sag', 'saga']
+        }),
+        (LogisticRegression, {
+            'penalty': ['l1'],
+            'C': [0.001, 0.01, 0.1, 1, 10, 100],
+            'solver': ['saga'],
+            "l1_ratio": [0.25, 0.5, 0.75, 1]
+        }),
+        (RandomForestClassifier, {
+            'n_estimators': [50, 100, 200],
+            'max_depth': [None, 10, 20],
+            'min_samples_split': [2, 5, 10],
+            'min_samples_leaf': [1, 2, 4],
+            'bootstrap': [True, False]
+        }),
+        (xgb.XGBClassifier, {
+            'n_estimators': [50, 100, 200],
+            'learning_rate': [0.01, 0.1, 0.2],
+            'max_depth': [3, 4, 5, 6],
+            'min_child_weight': [1, 2, 3],
+            'subsample': [0.5, 0.75, 1],
+            'colsample_bytree': [0.5, 0.75, 1],
+        })
+    ]
+    return classifiers_hyperparameters
 
 
 def get_data(distance_matrix, synthesis_table):
@@ -59,7 +100,7 @@ def get_args():
         "-s",
         "--seed",
         type=int,
-        default=1886,
+        default=None,
         help="random seed",
     )
     parser.add_argument(
@@ -87,6 +128,7 @@ def main():
         sys.exit()
 
     dm, synth = get_data(args.distance_matrix, args.synthesis_table)
+    classifiers_hyperparameters = get_ranges()
 
     results = []
     for _label in synth.columns:
@@ -99,23 +141,29 @@ def main():
         if n_pos < args.min_positive:
             continue
 
-        for cls, ranges in classifiers_hyperparameters:
+        for i, (cls, ranges) in enumerate(classifiers_hyperparameters):
             print(_label, cls.__name__)
 
-            opt = HyperparameterOptimizer(
-                cls,
-                ranges,
-                val_size=args.val_size,
-                test_size=args.test_size,
-                balanced=args.balanced,
-                random_seed=args.seed,
-            )
+            for run in range(args.n_runs):
+                seed = random.randint(0, 100000) if args.seed is None else args.seed
 
-            results += opt.optimize_hyperparameters(
-                X, y, n_runs=args.n_runs, n_workers=args.n_workers
-            )
+                opt = HyperparameterOptimizer(
+                    cls,
+                    ranges,
+                    val_size=args.val_size,
+                    test_size=args.test_size,
+                    balanced=args.balanced,
+                    random_seed=seed,
+                    label=_label,
+                )
 
-        break
+                res = opt.optimize_hyperparameters(X, y, n_workers=args.n_workers)
+
+                for _dict in res:
+                    _dict["params_index"] = i
+                    _dict["run"] = run
+
+                results += res
 
     df = pd.DataFrame(results)
     df.to_json(args.output)

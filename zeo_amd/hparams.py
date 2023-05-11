@@ -17,6 +17,7 @@ class HyperparameterOptimizer:
         test_size: float = 0.2,
         balanced: bool = True,
         random_seed: int = 42,
+        label: str = None
     ):
         self.Classifier = classifier_class
         self.hyperparameter_ranges = hyperparameter_ranges
@@ -24,8 +25,9 @@ class HyperparameterOptimizer:
         self.test_size = test_size
         self.balanced = balanced
         self.seed = random_seed
+        self.label = label
 
-    def optimize_hyperparameters(self, X, y, n_runs=10, n_workers=8):
+    def optimize_hyperparameters(self, X, y, n_workers=8):
         X_train, X_val, X_test, y_train, y_val, y_test = get_datasets_with_validation(
             X, y, self.val_size, self.test_size, self.balanced, self.seed
         )
@@ -33,46 +35,41 @@ class HyperparameterOptimizer:
         param_grid = ParameterGrid(self.hyperparameter_ranges)
         p = mp.Pool(n_workers)
 
-        train_fn = lambda params: self.train(params, X_train, X_val, X_test, y_train, y_val, y_test, n_runs=n_runs)
+        train_fn = lambda params: self.train(params, X_train, X_val, X_test, y_train, y_val, y_test)
 
         results = []
-        for result in p.imap_unordered(train_fn, param_grid, chunksize=1):
-            results = results + result
+        for res in p.imap_unordered(train_fn, param_grid, chunksize=1):
+            if res:
+                results.append(res)
 
         return results
 
-    def train(self, params, X_train, X_val, X_test, y_train, y_val, y_test, n_runs=10):
-        results = []
-        for run in range(n_runs):
-            try:
-                clf = self.Classifier(**params)
-                clf.fit(X_train, y_train)
+    def train(self, params, X_train, X_val, X_test, y_train, y_val, y_test):
+        try:
+            clf = self.Classifier(**params)
+            clf.fit(X_train, y_train)
 
-            except ValueError:
-                continue
+        except ValueError:
+            return {}
 
-            y_val_pred = clf.predict(X_val)
-            y_val_score = clf.predict_proba(X_val)[:, 1]
+        y_val_pred = clf.predict(X_val)
+        y_val_score = clf.predict_proba(X_val)[:, 1]
 
-            val_metrics = get_metrics(y_val, y_val_pred, y_val_score)
-            val_metrics = {f"val_{k}": v for k, v in val_metrics.items()}
+        val_metrics = get_metrics(y_val, y_val_pred, y_val_score)
+        val_metrics = {f"val_{k}": v for k, v in val_metrics.items()}
 
-            y_test_pred = clf.predict(X_test)
-            y_test_score = clf.predict_proba(X_test)[:, 1]
-            test_metrics = get_metrics(y_test, y_test_pred, y_test_score)
-            test_metrics = {f"test_{k}": v for k, v in test_metrics.items()}
+        y_test_pred = clf.predict(X_test)
+        y_test_score = clf.predict_proba(X_test)[:, 1]
+        test_metrics = get_metrics(y_test, y_test_pred, y_test_score)
+        test_metrics = {f"test_{k}": v for k, v in test_metrics.items()}
 
-            results.append(
-                {
-                    "run": run,
-                    "classifier": type(clf).__name__,
-                    "n_pos": y_train.sum(),
-                    "n_neg": (1 - y_train).sum(),
-                    "seed": self.seed,
-                    "params": params,
-                    **val_metrics,
-                    **test_metrics,
-                }
-            )
-
-        return results
+        return {
+            "label": self.label,
+            "classifier": type(clf).__name__,
+            "n_pos": y_train.sum(),
+            "n_neg": (1 - y_train).sum(),
+            "seed": self.seed,
+            "params": params,
+            **val_metrics,
+            **test_metrics,
+        }

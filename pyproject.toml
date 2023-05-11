@@ -27,6 +27,7 @@ dependencies = [
 
 [project.scripts]
 zamd_compare = "zeo_amd.scripts.compare:main"
+zamd_hyperopt = "zeo_amd.scripts.hyperopt:main"
 
 [project.urls]
 Homepage = "https://github.com/dskoda/Zeolite-AMD"
