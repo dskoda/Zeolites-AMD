@@ -21,7 +21,7 @@ RANDOM_SEED = 42
 
 def get_metrics(y_true, y_pred, y_score):
     fpr, tpr, _ = roc_curve(y_true, y_score)
-    pr, rc, _ = pr_curve = precision_recall_curve(y_true, y_score)
+    pr, rc, _ = precision_recall_curve(y_true, y_score)
 
     return {
         "accuracy": accuracy_score(y_true, y_pred),
@@ -88,7 +88,11 @@ def get_datasets_with_validation(
 ):
     temp_size = val_size + test_size
     X_train, X_temp, y_train, y_temp = get_datasets(
-        X, y, test_size=temp_size, balanced=balanced, random_seed=random_seed
+        X,
+        y,
+        test_size=temp_size,
+        balanced=balanced,
+        random_seed=random_seed,
     )
     X_val, X_test, y_val, y_test = get_datasets(
         X_temp,
@@ -106,11 +110,19 @@ def train_classifier(
     X: np.ndarray,
     y: np.ndarray,
     balanced: bool = True,
+    normalized: bool = True,
     test_size: float = TEST_SIZE,
     random_seed: int = RANDOM_SEED,
 ):
+    if normalized:
+        X = (X - X.mean(0, keepdims=True)) / X.std(0, keepdims=True)
+
     X_train, X_test, y_train, y_test = get_datasets(
-        X, y, test_size=test_size, balanced=balanced, random_seed=random_seed
+        X,
+        y,
+        test_size=test_size,
+        balanced=balanced,
+        random_seed=random_seed,
     )
 
     # Fitting the classifier

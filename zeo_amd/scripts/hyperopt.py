@@ -1,11 +1,11 @@
-import os
-import sys
-import random
 import argparse
-import numpy as np
-import pandas as pd
+import os
+import random
+import sys
 import warnings
 
+import numpy as np
+import pandas as pd
 from zeo_amd.hparams import HyperparameterOptimizer
 
 warnings.filterwarnings("ignore")
@@ -123,6 +123,12 @@ def get_args():
         help="If true, creates a balanced dataset",
     )
     parser.add_argument(
+        "--normalized",
+        action="store_true",
+        default=False,
+        help="If true, normalizes the dataset",
+    )
+    parser.add_argument(
         "-o",
         "--output",
         type=str,
@@ -165,6 +171,7 @@ def main():
                     val_size=args.val_size,
                     test_size=args.test_size,
                     balanced=args.balanced,
+                    normalized=args.normalized,
                     random_seed=seed,
                     label=_label,
                 )
