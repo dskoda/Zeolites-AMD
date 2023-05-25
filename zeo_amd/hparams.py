@@ -16,6 +16,7 @@ class HyperparameterOptimizer:
         val_size: float = 0.2,
         test_size: float = 0.2,
         balanced: bool = True,
+        normalized: bool = True,
         random_seed: int = 42,
         label: str = None,
     ):
@@ -24,10 +25,14 @@ class HyperparameterOptimizer:
         self.val_size = val_size
         self.test_size = test_size
         self.balanced = balanced
+        self.normalized = normalized
         self.seed = random_seed
         self.label = label
 
     def optimize_hyperparameters(self, X, y, n_workers=8):
+        if self.normalized:
+            X = (X - X.mean(0, keepdims=True)) / X.std(0, keepdims=True)
+
         X_train, X_val, X_test, y_train, y_val, y_test = get_datasets_with_validation(
             X, y, self.val_size, self.test_size, self.balanced, self.seed
         )
