@@ -1,18 +1,15 @@
 import numpy as np
 import pandas as pd
-
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import auc
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import f1_score
+from sklearn.metrics import precision_recall_curve
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import (
-    accuracy_score,
-    precision_score,
-    recall_score,
-    f1_score,
-    roc_auc_score,
-    confusion_matrix,
-    precision_recall_curve,
-    auc,
-    roc_curve,
-)
 
 
 TEST_SIZE = 0.3
@@ -139,3 +136,22 @@ def train_classifier(
         "seed": random_seed,
         **get_metrics(y_test, y_pred, y_score),
     }
+
+
+def get_best_classifier(**params):
+    import xgboost as xgb
+
+    BEST_HYPERPARAMS = {
+        "colsample_bytree": 0.5,
+        "learning_rate": 0.1,
+        "max_depth": 6,
+        "min_child_weight": 1,
+        "n_estimators": 200,
+        "subsample": 0.5
+    }
+
+    return xgb.XGBClassifier(
+        objective="binary:logistic",
+        **BEST_HYPERPARAMS,
+        **params,
+    )
