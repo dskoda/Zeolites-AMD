@@ -77,6 +77,6 @@ This data has been produced for the following paper:
 
 ## License
 
-The code is not public - this repository is for peer-review only.
+The code is not public yet - this repository is for peer-review only.
 Distribution of the data is prohibited until the repository is made public.
 Opening of the data will occur prior to publication.
