@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 # Data folder for now
-./data
+data/*
 tests/
 *.db
