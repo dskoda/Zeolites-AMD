@@ -21,6 +21,17 @@ pip install -e .
 
 This should install all dependencies (see [pyproject.toml](pyproject.toml)) and two scripts (`zamd_compare` and `zamd_hyperopt`).
 
+To download the data that reproduces this paper, simply run
+
+```bash
+chmod +x download.sh
+./download.sh
+```
+
+in the root of the repository.
+The data is currently hosted on Google Drive during peer review.
+It will be made public prior to the publication of the manuscript.
+
 ## Description of the data
 
 The raw data folder contains all results shown in the paper, including:
@@ -66,4 +77,6 @@ This data has been produced for the following paper:
 
 ## License
 
-The code is not public - this repository is for peer-review only. Distribution of the data is prohibited until the repository is made available for all.
+The code is not public - this repository is for peer-review only.
+Distribution of the data is prohibited until the repository is made public.
+Opening of the data will occur prior to publication.
