@@ -2,7 +2,7 @@
 
 This repository contains all the data, plots, scripts, and notebooks to reproduce the manuscript:
 
-D. Schwalbe-Koda et al. "Inorganic synthesis-structure maps in zeolites with machine learning and crystallographic distances". arXiv (2023)
+D. Schwalbe-Koda et al. "Inorganic synthesis-structure maps in zeolites with machine learning and crystallographic distances". arXiv:2307.10935 (2023)
 
 All the raw data for the computational analysis is found in the [data](data/) folder.
 The scripts used to reproduce the plots is available at the [zeo_amd](zeo_amd/) folder.
@@ -68,10 +68,10 @@ This data has been produced for the following paper:
     title = {Inorganic synthesis-structure maps in zeolites with machine learning and crystallographic distances},
     author = {Schwalbe-Koda, Daniel, Widdowson, Daniel E., Pham, Tuan Anh, Kurlin, Vitaliy E.},
     year = {2023},
-    journal = {arXiv},
-    doi = {},
-    url = {},
-    arxiv={},
+    journal = {arXiv:2307.10935},
+    doi = {10.48550/arXiv.2307.10935},
+    url = {https://doi.org/10.48550/arXiv.2307.10935},
+    arxiv = {2307.10935},
 }
 ```
 
