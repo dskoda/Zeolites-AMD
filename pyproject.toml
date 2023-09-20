@@ -20,9 +20,11 @@ dependencies = [
     "pandas",
     "numpy",
     "tqdm",
+    "dscribe",
     "shap",
     "umap-learn",
     "xgboost >= 1.7.0",
+    "multiprocess",
 ]
 
 [project.scripts]
