@@ -3,12 +3,14 @@ import pandas as pd
 from sklearn.metrics import homogeneity_score
 
 
-def get_positive_clusters(true_labels: np.ndarray, clusters: np.ndarray):
+def get_positive_clusters(
+    true_labels: np.ndarray, clusters: np.ndarray, min_cluster_size: int = 2
+):
     df = pd.DataFrame([true_labels, clusters], index=["label", "cluster"]).T
 
     grp = df.groupby("cluster")["label"]
     positive = grp.count()[(grp.sum() > 0)]
-    idx = positive.loc[positive > 1].index
+    idx = positive.loc[positive >= min_cluster_size].index
 
     df = df.loc[df.cluster.isin(idx)]
 
