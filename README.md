@@ -77,6 +77,8 @@ This data has been produced for the following paper:
 
 ## License
 
-The code is not public yet - this repository is for peer-review only.
-Distribution of the data is prohibited until the repository is made public.
-Opening of the data will occur prior to publication.
+The data and all the content from this repository is distributed under the [Creative Commons Attribution 4.0 (CC-BY 4.0)](LICENSE.md).
+
+This work was produced under the auspices of the U.S. Department of Energy by Lawrence Livermore National Laboratory under Contract DE-AC52-07NA27344.
+
+Dataset released as: LLNL-MI-854709.
