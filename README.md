@@ -31,7 +31,7 @@ chmod +x download.sh
 
 in the root of the repository.
 While some of the data is already available in the repository, most of the raw data is too large for GitHub.
-Thus, part of the raw data that reproduces the paper is hosted on Zenodo for persistent storage.
+Thus, part of the raw data that reproduces the paper is hosted on Zenodo for persistent storage (DOI: [10.5281/zenodo.8422372](https://doi.org/10.5281/zenodo.8422372)).
 
 ## Description of the data
 
