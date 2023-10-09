@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 
 # Data folder for now
-data/*
 tests/
 *.db
 *.tar.gz
