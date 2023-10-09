@@ -147,7 +147,7 @@ def get_best_classifier(**params):
         "max_depth": 6,
         "min_child_weight": 1,
         "n_estimators": 200,
-        "subsample": 0.5
+        "subsample": 0.5,
     }
 
     return xgb.XGBClassifier(
