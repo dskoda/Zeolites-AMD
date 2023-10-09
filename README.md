@@ -1,4 +1,7 @@
-# Inorganic synthesis maps in zeolites
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8422373.svg)](https://doi.org/10.5281/zenodo.8422373)
+
+# Inorganic synthesis-structure maps in zeolites with ML and crystallographic distances
 
 This repository contains all the data, plots, scripts, and notebooks to reproduce the manuscript:
 
