@@ -20,6 +20,7 @@ pip install -e .
 ```
 
 This should install all dependencies (see [pyproject.toml](pyproject.toml)) and two scripts (`zamd_compare` and `zamd_hyperopt`).
+Importantly, this also installs the [`average-minimum-distance`](https://github.com/dwiddo/average-minimum-distance) package that compare crystals by their AMD or PDD.
 
 To download the data that reproduces this paper, simply run
 
@@ -29,8 +30,8 @@ chmod +x download.sh
 ```
 
 in the root of the repository.
-The data is currently hosted on Google Drive during peer review.
-It will be made public prior to the publication of the manuscript.
+While some of the data is already available in the repository, most of the raw data is too large for GitHub.
+Thus, part of the raw data that reproduces the paper is hosted on Zenodo for persistent storage.
 
 ## Description of the data
 

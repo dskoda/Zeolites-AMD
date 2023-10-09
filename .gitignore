@@ -133,3 +133,4 @@ data/*
 tests/
 *.db
 *.tar.gz
+tar/*
