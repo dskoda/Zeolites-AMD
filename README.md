@@ -1,9 +1,9 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8422565.svg)](https://doi.org/10.5281/zenodo.8422565)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8422373.svg)](https://doi.org/10.5281/zenodo.8422373)
-
 <div align="center">
   <img src="https://raw.githubusercontent.com/dskoda/Zeolites-AMD/main/figs/toc.jpg" width="500"><br>
 </div>
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8422565.svg)](https://doi.org/10.5281/zenodo.8422565)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8422373.svg)](https://doi.org/10.5281/zenodo.8422373)
 
 # Inorganic synthesis-structure maps in zeolites with ML and crystallographic distances
 
