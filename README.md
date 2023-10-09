@@ -21,8 +21,9 @@ pip install -e .
 
 This should install all dependencies (see [pyproject.toml](pyproject.toml)) and two scripts (`zamd_compare` and `zamd_hyperopt`).
 Importantly, this also installs the [`average-minimum-distance`](https://github.com/dwiddo/average-minimum-distance) package that compare crystals by their AMD or PDD.
+For full reproducibility, all packages used when producing the results of this work are given in the [environment.txt](environment.txt) file.
 
-To download the data that reproduces this paper, simply run
+To download the raw data that has all the results for this paper, simply run
 
 ```bash
 chmod +x download.sh
@@ -54,11 +55,11 @@ Each notebook performs part of the analysis and replots the figures from the pap
 The code in [zeo_amd](zeo_amd/) simplifies the analysis in the notebooks by bundling relevant functions and scripts in the `zeo_amd` package.
 They contain scripts that perform, for this specific work:
 
-- Clustering of the zeolite data
-- Training and selection of classifiers
-- Hyperparameter optimization
 - Calculation of the distance matrix using the `amd` code
 - Plotting of the minimum spanning tree
+- Clustering of the zeolite data
+- Training and selection of classifiers
+- Analysis of the results from hyperparameter optimization
 
 ## Citing
 
